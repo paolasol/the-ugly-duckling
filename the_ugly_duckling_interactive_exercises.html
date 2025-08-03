@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Ugly Duckling - Interactive Exercises</title>
+  <style>
+    body { font-family: 'Comic Sans MS', cursive, sans-serif; margin: 20px; background: linear-gradient(to bottom right, #e0f7e9, #f1fdf2); color: #333; }
+    h1 { text-align: center; color: #4CAF50; font-size: 36px; animation: pop 1s ease; }
+    h2 { text-align: center; color: #2e7d32; }
+    @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .star { position: absolute; font-size: 20px; color: gold; animation: starAnim 1s ease forwards; }
+    @keyframes starAnim { 0% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-20px); } 100% { opacity: 0; transform: translateY(-40px); } }
+    .btn-container { text-align: center; margin-bottom: 20px; }
+    .drag-btn { padding: 10px 15px; margin: 5px; background: #b2fab4; border: 2px solid #66bb6a; cursor: grab; font-weight: bold; border-radius: 10px; transition: transform 0.2s, background 0.3s; }
+    .drag-btn:hover { transform: scale(1.1); background: #66bb6a; color: #fff; }
+    .image-row { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+    .image-box { width: 220px; text-align: center; border: 3px solid #66bb6a; border-radius: 15px; padding: 10px; background: #f9fff9; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); animation: fadeIn 1s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .image-box img { width: 100%; border-radius: 10px; }
+    .image-text { font-size: 14px; text-align: left; margin-top: 8px; color: #2e7d32; }
+    .drop-zone { margin-top: 8px; padding: 5px; background: #e8f5e9; border-radius: 10px; min-height: 30px; cursor: pointer; transition: background 0.3s; }
+    .true-false, .order, .complete, .questions, .result { max-width: 800px; margin: 20px auto; background: #f9fff9; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); border: 2px solid #66bb6a; animation: fadeIn 1.2s ease; }
+    .tf-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .tf-item span { color: #2e7d32; font-weight: bold; }
+    .order-container { display: flex; flex-direction: column; gap: 10px; }
+    .draggable-sentence { background: #b2fab4; padding: 8px; border-radius: 8px; cursor: grab; border: 2px solid #66bb6a; transition: background 0.3s; }
+    .draggable-sentence:hover { background: #66bb6a; color: #fff; }
+    .dropzone { border: 2px dashed #66bb6a; padding: 10px; min-height: 40px; border-radius: 5px; }
+    .complete-item input, .question-item input { width: 80%; margin-left: 10px; border: 2px solid #66bb6a; border-radius: 5px; padding: 3px; }
+    button.tf { padding: 5px 15px; border-radius: 8px; border: none; cursor: pointer; background: #b2fab4; border: 2px solid #66bb6a; font-weight: bold; transition: background 0.3s; }
+    button.tf:hover { background: #66bb6a; color: #fff; }
+    .score { text-align: center; font-weight: bold; font-size: 20px; margin-top: 15px; color: #2e7d32; animation: pop 1s ease; }
+  </style>
+</head>
+<body>
+  <h1>The Ugly Duckling</h1>
+
+  <!-- Exercise 1 -->
+  <h2>Exercise 1 Match the picture with the season</h2>
+  <div class="btn-container" id="buttons"></div>
+  <div class="image-row" id="images">
+    <div class="image-box" data-answer="It’s summer.">
+      <img src="https://i.ibb.co/tPWTHTHn/image1.jpg" alt="summer">
+      <div class="drop-zone"></div>
+      <div class="image-text">___ It is hot. A duck is in the nest. There are eggs. A big egg opens. A big duckling is here.</div>
+    </div>
+    <div class="image-box" data-answer="It’s autumn.">
+      <img src="https://i.ibb.co/V0kL41rB/image3.jpg" alt="autumn">
+      <div class="drop-zone"></div>
+      <div class="image-text">___ It is rainy. The duckling is cold. He is alone. A dog is near. The dog is not his friend.</div>
+    </div>
+    <div class="image-box" data-answer="It’s winter.">
+      <img src="https://i.ibb.co/1tDr42zh/image4.jpg" alt="winter">
+      <div class="drop-zone"></div>
+      <div class="image-text">___ It is cold. A man sees the duckling. He takes him home. The children are not kind. The duckling is sad.</div>
+    </div>
+    <div class="image-box" data-answer="It’s spring.">
+      <img src="https://i.ibb.co/2bPbsSg/image5.jpg" alt="spring">
+      <div class="drop-zone"></div>
+      <div class="image-text">___ It is warm. The duckling sees white birds. He is not a duckling. He is a swan. He is happy.</div>
+    </div>
+    <div class="image-box" data-answer="extra">
+      <img src="https://i.ibb.co/DgjXDbLm/extra.jpg" alt="extra">
+      <div class="drop-zone"></div>
+      <div class="image-text">___ The ducklings go to the water. They swim. They play. The big ducks are not nice. The rabbits are not nice.</div>
+    </div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="true-false">
+    <h2>Exercise 2 True or False</h2>
+    <div class="tf-item"><span>The duck is in the house.</span>
+      <div>
+        <button class="tf" data-correct="false">True</button>
+        <button class="tf" data-correct="true">False</button>
+      </div>
+    </div>
+    <div class="tf-item"><span>The duckling is cold.</span>
+      <div>
+        <button class="tf" data-correct="true">True</button>
+        <button class="tf" data-correct="false">False</button>
+      </div>
+    </div>
+    <div class="tf-item"><span>The children are kind in winter.</span>
+      <div>
+        <button class="tf" data-correct="false">True</button>
+        <button class="tf" data-correct="true">False</button>
+      </div>
+    </div>
+    <div class="tf-item"><span>The duckling is a swan in spring.</span>
+      <div>
+        <button class="tf" data-correct="true">True</button>
+        <button class="tf" data-correct="false">False</button>
+      </div>
+    </div>
+    <div class="tf-item"><span>The duckling is happy.</span>
+      <div>
+        <button class="tf" data-correct="true">True</button>
+        <button class="tf" data-correct="false">False</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="order">
+    <h2>Exercise 3 Put the sentences in the correct order</h2>
+    <div class="order-container" id="order-container">
+      <div class="draggable-sentence" draggable="true">The duckling is a swan in spring.</div>
+      <div class="draggable-sentence" draggable="true">The big ducks are not kind.</div>
+      <div class="draggable-sentence" draggable="true">A man takes the duckling home.</div>
+      <div class="draggable-sentence" draggable="true">The duckling is alone in autumn.</div>
+      <div class="draggable-sentence" draggable="true">The big egg opens.</div>
+    </div>
+    <div id="order-feedback" style="margin-top:10px; font-weight:bold;"></div>
+  </div>
+
+  <!-- Exercise 4 -->
+  <div class="complete">
+    <h2>Exercise 4 Complete the sentences</h2>
+    <div class="complete-item">A duck is in ... <input type="text"></div>
+    <div class="complete-item">The dog is not ... <input type="text"></div>
+    <div class="complete-item">The duckling sees ... <input type="text"></div>
+    <div class="complete-item">The rabbits are ... <input type="text"></div>
+    <div class="complete-item">He is a swan and he is ... <input type="text"></div>
+  </div>
+
+  <!-- Exercise 5 -->
+  <div class="questions">
+    <h2>Exercise 5 Answer the questions</h2>
+    <div class="question-item">1) Do you like spring? <input type="text"></div>
+    <div class="question-item">2) Can you swim in autumn? <input type="text"></div>
+    <div class="question-item">3) Can you ski in winter? <input type="text"></div>
+    <div class="question-item">4) What is your favourite season? <input type="text"></div>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="score" id="score"></div>
+
+  <script>
+    let score = 0;
+    let totalExercises = 3;
+
+    // Exercise 1 buttons shuffled with removal and return
+    const buttons = ["extra", "It’s summer.", "It’s autumn.", "It’s winter.", "It’s spring."];
+    const btnContainer = document.getElementById("buttons");
+    buttons.sort(() => Math.random() - 0.5).forEach(text => {
+      createButton(text);
+    });
+
+    function createButton(text) {
+      const btn = document.createElement("button");
+      btn.textContent = text;
+      btn.classList.add("drag-btn");
+      btn.setAttribute("draggable", true);
+      btn.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("text", text);
+      });
+      btnContainer.appendChild(btn);
+    }
+
+    document.querySelectorAll(".drop-zone").forEach(zone => {
+      zone.addEventListener("dragover", e => e.preventDefault());
+      zone.addEventListener("drop", e => {
+        e.preventDefault();
+        const answer = e.dataTransfer.getData("text");
+        if(zone.textContent) {
+          createButton(zone.textContent);
+        }
+        zone.textContent = answer;
+        const parent = zone.parentElement;
+        if (parent.dataset.answer === answer) {
+          zone.style.background = "#c8f7c5";
+          animateStars(zone);
+        } else {
+          zone.style.background = "#f7c5c5";
+        }
+        Array.from(btnContainer.children).forEach(btn => {
+          if(btn.textContent === answer) btn.remove();
+        });
+        checkScore();
+      });
+      zone.addEventListener("click", e => {
+        if(zone.textContent) {
+          createButton(zone.textContent);
+          zone.textContent = "";
+          zone.style.background = "#e8f5e9";
+        }
+      });
+    });
+
+    // True/False check
+    document.querySelectorAll(".tf").forEach(btn => {
+      btn.addEventListener("click", e => {
+        if (btn.dataset.correct === "true") {
+          btn.style.background = "#c8f7c5";
+          animateStars(btn);
+        } else {
+          btn.style.background = "#f7c5c5";
+        }
+        checkScore();
+      });
+    });
+
+    // Exercise 3 drag-and-drop with feedback and scoring
+    const orderContainer = document.getElementById("order-container");
+    const sentences = Array.from(orderContainer.children);
+    const correctOrder = ["The big egg opens.", "The big ducks are not kind.", "The duckling is alone in autumn.", "A man takes the duckling home.", "The duckling is a swan in spring."];
+    sentences.sort(() => Math.random() - 0.5).forEach(sentence => orderContainer.appendChild(sentence));
+
+    let dragItem = null;
+    orderContainer.addEventListener("dragstart", e => {
+      dragItem = e.target;
+    });
+    orderContainer.addEventListener("dragover", e => {
+      e.preventDefault();
+      const afterElement = Array.from(orderContainer.children).find(child => {
+        const box = child.getBoundingClientRect();
+        return e.clientY < box.top + box.height / 2;
+      });
+      if (afterElement) {
+        orderContainer.insertBefore(dragItem, afterElement);
+      } else {
+        orderContainer.appendChild(dragItem);
+      }
+    });
+    orderContainer.addEventListener("drop", e => {
+      const currentOrder = Array.from(orderContainer.children);
+      currentOrder.forEach((child, index) => {
+        if (child.textContent === correctOrder[index]) {
+          child.style.background = "#c8f7c5";
+          animateStars(child);
+        } else {
+          child.style.background = "#f7c5c5";
+        }
+      });
+      checkScore();
+    });
+
+    // Add stars animation
+    function animateStars(element) {
+      for (let i = 0; i < 3; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.textContent = "⭐";
+        star.style.left = element.getBoundingClientRect().left + Math.random() * 40 + "px";
+        star.style.top = element.getBoundingClientRect().top + window.scrollY + "px";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1000);
+      }
+    }
+
+    // Score calculation
+    function checkScore() {
+      const dropZones = document.querySelectorAll(".drop-zone");
+      const tfButtons = document.querySelectorAll(".tf");
+      const orderItems = document.querySelectorAll(".order-container .draggable-sentence");
+
+      let correct = 0;
+      // Check exercise 1
+      dropZones.forEach(zone => {
+        if(zone.parentElement.dataset.answer === zone.textContent) {
+          correct++;
+        }
+      });
+      // Check exercise 2
+      tfButtons.forEach(btn => {
+        if(btn.style.background === "rgb(200, 247, 197)" && btn.dataset.correct === "true") {
+          correct++;
+        }
+      });
+      // Check exercise 3
+      const currentOrder = Array.from(orderItems);
+      let allCorrect = true;
+      currentOrder.forEach((child, index) => {
+        if(child.textContent !== correctOrder[index]) {
+          allCorrect = false;
+        }
+      });
+      if(allCorrect) correct++;
+
+      document.getElementById("score").textContent = `Your score: ${correct}`;
+    }
+  </script>
+</body>
+</html>
